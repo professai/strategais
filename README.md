@@ -16,7 +16,7 @@ Then run
 | -d | --description | 'Strategais Server' | The description of the server. |
 | -p | --port | 8000 | The port to serve the server on. |
 | -e | --env | 'main.env' | The .env file to load. |
-| -l | --llm | 'path/hfagen_llm.py' | The path to the Python file that defines the LLM to use. |
+| -l | --llm | 'path/hfagent_llm.py' | The path to the Python file that defines the LLM to use. |
 
 
 ## 🤔 What is this?
