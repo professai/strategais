@@ -57,7 +57,7 @@ if args.llm:
     spec.loader.exec_module(llm_module)
     chatbot = llm_module.main_chat()
 else:
-    def main_chat(question: str = 'Hello World?'):
+    def main_chat(question):
         from transformers.tools import HfAgent
         agent = HfAgent("https://api-inference.huggingface.co/models/bigcode/starcoder")
         return agent.chat(question)
