@@ -10,7 +10,7 @@ import uvicorn
 
 from fastapi import FastAPI, Request, WebSocket  # ,Response, Body, Form,
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.openapi.docs import (
@@ -78,6 +78,14 @@ server.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"], )
 
+
+@server.get("/",
+            tags=['Chat'],
+            summary="Chat API",
+            description="Returns the chat response to the question.")
+def root():
+    return RedirectResponse(url='/docs')
+
 @server.get("/keepalive",
             tags=['Keep Alive API'],
             summary="Keep Alive API",
@@ -87,8 +95,8 @@ def keepalive_get():
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     return {'timestamp': timestamp}
     
-@server.get("/chat",
-            tags=['Chat API'],
+@server.get("/chat/api",
+            tags=['Chat'],
             summary="Chat API",
             description="Returns the chat response to the question.")
 def chat_get(question: str = 'Hello World?'):
@@ -104,15 +112,13 @@ async def chat_endpoint(websocket: WebSocket):
 import urllib3
 urllib3.disable_warnings()
 
-
 import pkg_resources
 
 template_path = pkg_resources.resource_filename('strategais', 'templates')
 templates = Jinja2Templates(directory=template_path)
 
-
-@server.get("/", response_class=HTMLResponse,
-            tags=['Landing API'],
+@server.get("/chat", response_class=HTMLResponse,
+            tags=['Chat'],
             summary="Chat Home Page",
             description="Chat Home Page")
 def index_html(request: Request):
