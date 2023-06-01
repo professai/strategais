@@ -63,7 +63,7 @@ else:
     def main_chat(question):
         from transformers.tools import HfAgent
         agent = HfAgent("https://api-inference.huggingface.co/models/bigcode/starcoder")
-        return agent.chat(question)
+        return agent.run(question)
     
     chatbot = main_chat
 
