@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='strategais',
-    version='0.2.1', 
+    version='0.2.2', 
     description='A Python library for deploying large language models (LLMs) in local environments.',
     long_description=long_description,
     long_description_content_type="text/markdown", 
@@ -53,6 +53,7 @@ setup(
         'loralib', 
         'sentencepiece', 
         'transformers',
+        'xformers',
         'pytorch-lightning',
         'torch',
         'accelerate',
