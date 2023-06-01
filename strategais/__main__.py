@@ -46,7 +46,7 @@ parser.add_argument('-d', '--description', default='Strategais Server', help='Th
 parser.add_argument('-p', '--port', type=int, default=8000, help='The port to serve the server on.')
 parser.add_argument('-e', '--env', default='main.env', help='The .env file to load.')
 parser.add_argument('-l', '--llm', help='The path to the Python file that defines the LLM to use.')
-parser.add_argument('-h','--html', help='The path to the HTML file to use.')
+parser.add_argument('--html', help='The path to the HTML file to use.')
 
 args = parser.parse_args()
 
