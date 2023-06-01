@@ -51,6 +51,9 @@ args = parser.parse_args()
 
 load_dotenv(args.env)
 
+from huggingface_hub import login
+login(os.getenv('HUGGINGFACEHUB_API_TOKEN'))
+
 if args.llm:
     spec = importlib.util.spec_from_file_location("llm", args.llm)
     llm_module = importlib.util.module_from_spec(spec)
@@ -58,8 +61,6 @@ if args.llm:
     chatbot = llm_module.main_chat()
 else:
     def main_chat(question):
-        from huggingface_hub import login
-        login(os.getenv('HUGGINGFACEHUB_API_TOKEN'))
         from transformers.tools import HfAgent
         agent = HfAgent("https://api-inference.huggingface.co/models/bigcode/starcoder")
         return agent.chat(question)
@@ -85,7 +86,7 @@ def keepalive_get():
     
 @server.get("/chat")
 def chat_get(question: str = 'Hello World?'):
-    return chatbot(question)
+    return {"answer": chatbot(question)}
 
 @server.websocket("/chat/ws")
 async def chat_endpoint(websocket: WebSocket):
