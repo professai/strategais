@@ -17,7 +17,7 @@ Then run
 | -p | --port | 8000 | The port to serve the server on. |
 | -e | --env | 'main.env' | The .env file to load. |
 | -l | --llm | 'path/hfagent_llm.py' | The path to the Python file that defines the LLM to use. |
-| -h | --html | 'path/to/other.html' | The path to the HTML file to use. |
+| | --html | 'path/to/other.html' | The path to the HTML file to use. |
 
 ## 🤔 What is this?
 
