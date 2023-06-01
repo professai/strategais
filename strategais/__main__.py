@@ -101,5 +101,17 @@ async def chat_endpoint(websocket: WebSocket):
         question = await websocket.receive_text()
         await websocket.send_text(chatbot(question))
 
+import urllib3
+urllib3.disable_warnings()
+
+templates = Jinja2Templates(directory=".")
+
+@server.get("/", response_class=HTMLResponse,
+            tags=['Landing API'],
+            summary="Chat Home Page",
+            description="Chat Home Page")
+def index_html(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
+
 if __name__ == "__main__":
     uvicorn.run(server, host="0.0.0.0", port=args.port, log_level="info")

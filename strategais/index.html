@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chat</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+      integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+      crossorigin="anonymous"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css"
+    />
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"
+    ></script>
+
+    <link
+      href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+      rel="stylesheet"
+      id="bootstrap-css"
+    />
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script src="//unpkg.com/three"></script>
+    <script src="//unpkg.com/satellite.js/dist/satellite.min.js"></script>
+
+    <script src="//unpkg.com/globe.gl"></script>
+
+    <style>
+      body,html{
+			background: #7F7FD5;
+	        background: -webkit-linear-gradient(to right, #767a7a, #86A8E7, #7F7FD5);
+	        background: linear-gradient(to right, #767a7a, #86A8E7, #7F7FD5);
+		  }
+
+      .bg-dark {
+        background: #000 !important;
+      }
+
+      .chat {
+        margin-top: 5%;
+        margin-left: 10%;
+        margin-bottom: auto;
+      }
+      .card {
+        height: 500px;
+        width: 150%;
+        border-radius: 15px !important;
+        background-color: rgba(0, 0, 0, 0.4) !important;
+      }
+      .contacts_body {
+        padding: 0.75rem 0 !important;
+        overflow-y: auto;
+        white-space: nowrap;
+      }
+      .msg_card_body {
+        overflow-y: auto;
+      }
+      .card-header {
+        border-radius: 15px 15px 0 0 !important;
+        border-bottom: 0 !important;
+      }
+      .card-footer {
+        border-radius: 0 0 15px 15px !important;
+        border-top: 0 !important;
+      }
+      .container {
+        align-content: center;
+      }
+      .search {
+        border-radius: 15px 0 0 15px !important;
+        background-color: rgba(0, 0, 0, 0.3) !important;
+        border: 0 !important;
+        color: white !important;
+      }
+      .search:focus {
+        box-shadow: none !important;
+        outline: 0px !important;
+      }
+      .type_msg {
+        background-color: rgba(0, 0, 0, 0.3) !important;
+        border: 0 !important;
+        color: white !important;
+        height: 60px !important;
+        overflow-y: auto;
+      }
+      .type_msg:focus {
+        box-shadow: none !important;
+        outline: 0px !important;
+      }
+      .attach_btn {
+        border-radius: 15px 0 0 15px !important;
+        background-color: rgba(0, 0, 0, 0.3) !important;
+        border: 0 !important;
+        color: white !important;
+        cursor: pointer;
+      }
+      .send_btn {
+        border-radius: 0 15px 15px 0 !important;
+        background-color: rgba(0, 0, 0, 0.3) !important;
+        border: 0 !important;
+        color: white !important;
+        cursor: pointer;
+      }
+      .search_btn {
+        border-radius: 0 15px 15px 0 !important;
+        background-color: rgba(0, 0, 0, 0.3) !important;
+        border: 0 !important;
+        color: white !important;
+        cursor: pointer;
+      }
+      .contacts {
+        list-style: none;
+        padding: 0;
+      }
+      .contacts li {
+        width: 100% !important;
+        padding: 5px 10px;
+        margin-bottom: 15px !important;
+      }
+      .active {
+        background-color: rgba(0, 0, 0, 0.3);
+      }
+      .user_img {
+        height: 70px;
+        width: 70px;
+        border: 1.5px solid #f5f6fa;
+      }
+      .user_img_msg {
+        height: 40px;
+        width: 40px;
+        border: 1.5px solid #f5f6fa;
+      }
+      .img_cont {
+        position: relative;
+        height: 70px;
+        width: 70px;
+      }
+      .img_cont_msg {
+        height: 40px;
+        width: 40px;
+      }
+      .online_icon {
+        position: absolute;
+        height: 15px;
+        width: 15px;
+        background-color: #4cd137;
+        border-radius: 50%;
+        bottom: 0.2em;
+        right: 0.4em;
+        border: 1.5px solid white;
+      }
+      .offline {
+        background-color: #c23616 !important;
+      }
+      .user_info {
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-left: 15px;
+      }
+      .user_info span {
+        font-size: 20px;
+        color: white;
+      }
+      .user_info p {
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.6);
+      }
+      .video_cam {
+        margin-left: 50px;
+        margin-top: 5px;
+      }
+      .video_cam span {
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+        margin-right: 20px;
+      }
+      .msg_container {
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-left: 10px;
+        border-radius: 25px;
+        background-color: #82ccdd;
+        padding: 10px;
+        position: relative;
+      }
+      .msg_container_send {
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-right: 10px;
+        border-radius: 25px;
+        background-color: #78e08f;
+        padding: 10px;
+        position: relative;
+      }
+      .msg_time {
+        position: absolute;
+        left: 0;
+        bottom: -15px;
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 10px;
+      }
+      .msg_time_send {
+        position: absolute;
+        right: 0;
+        bottom: -15px;
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 10px;
+      }
+      .msg_head {
+        position: relative;
+      }
+      #action_menu_btn {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        color: white;
+        cursor: pointer;
+        font-size: 20px;
+      }
+      .action_menu {
+        z-index: 1;
+        position: absolute;
+        padding: 15px 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        border-radius: 15px;
+        top: 30px;
+        right: 15px;
+        display: none;
+      }
+      .action_menu ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .action_menu ul li {
+        width: 100%;
+        padding: 10px 15px;
+        margin-bottom: 5px;
+      }
+      .action_menu ul li i {
+        padding-right: 10px;
+      }
+      .action_menu ul li:hover {
+        cursor: pointer;
+        background-color: rgba(0, 0, 0, 0.2);
+      }
+      @media (max-width: 576px) {
+        .contacts_card {
+          margin-bottom: 15px !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#"><img src="/assets/logo_white_alpha.png" style="height: 60px;"></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container-fluid h-100">
+      <div class="row justify-content h-100">
+        <div class="col-md-6 col-xl-6 chat center">
+          <div class="card">
+            <div class="card-header msg_head">
+              <div class="d-flex bd-highlight">
+                <div class="img_cont">
+                  <img src="/assets/app_icon.png" class="rounded-circle user_img" />
+                  <span class="online_icon"></span>
+                </div>
+                <div class="user_info">
+                  <span>Chat</span>
+                </div>
+              </div>
+            </div>
+            <div class="card-body msg_card_body" id="chat-box">
+              <div class="d-flex justify-content-start mb-4">
+                <div class="img_cont_msg">
+                  <img
+                    src="/assets/app_icon.png"
+                    class="rounded-circle user_img_msg"
+                  />
+                </div>
+                <div class="msg_container">
+                  Ask me a question...
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <form id="chat-form">
+                <div class="input-group">
+                  <textarea
+                    name="message"
+                    class="form-control type_msg"
+                    placeholder="Type your message..."
+                    id="message"
+                  ></textarea>
+                  <div class="input-group-append">
+                    <button type="submit">
+                    <span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<script>
+
+  function scrollToBottom() {
+    var chatBox = $('#chat-box');
+    chatBox.scrollTop(chatBox.prop('scrollHeight'));
+  }
+    
+  $(document).ready(function() {
+    var hname = window.location.host;
+    console.log(hname)
+
+    $('#message').on('keypress', function(event) {
+      if (event.keyCode === 13 && !event.shiftKey) {
+        event.preventDefault();
+        $('#chat-form').submit();
+      }
+    });
+    // Connect to the websocket
+    var socket = new WebSocket('ws://'+hname+'/chat/ws');
+
+    // Send message to the websocket on form submit
+    $('#chat-form').submit(function(event) {
+      event.preventDefault();
+      var message = $('#message').val();
+      socket.send(message);
+      $('#chat-box').append(`
+        <div class="d-flex justify-content-end mb-4">
+                <div class="msg_container_send">
+                  ${message}
+                </div>
+                <div class="img_cont_msg">
+                  <img
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK8AAAB8CAMAAAAo5hDGAAAAY1BMVEX///8AAADDw8NxcXH7+/va2tr19fVlZWW6urrr6+uLi4vf39+9vb0ODg4FBQXn5+fPz88/Pz8wMDCqqqqgoKAYGBhra2uAgIAlJSUcHBxKSkpfX19ZWVmysrJTU1ORkZE3NzeTRpboAAAEkElEQVR4nO2b65aqMAyFLTdFBAooV1He/ymPSlpAQYq2xDmr378ZOrgnTdI0rZuNRqPRaDQajeZ/x/GoYRjUc7CFzON4Ser7AbkT+H6a/LRo93gmz5yPLrasCWzzRWyLaWNLG8HZBxNyb56x/y2vsDabw6TYlgO2xiHZjFxCMmyJHGsTlgNpp7JKzbQqT4PfluF9Hn4B99KT5WeG7TrWxnJc28j83pPLjySKsOk0mc9+eugljSZE0feEAzn3lh5KOvKclo9nd86/kCa23BOOEyOO3Cu2qyobpeZyp1cF22cWrldUNi6FJYHonXOGEUsd2Esd84b8fSyF+W94hAETPWs3mIeAGKvomsBi9dhudugORp4xFw2DpV2BsSwRYxoYvDf3BMZ6OboHO2CyvdDoPYzGWzQSUCBWGLgwOlGsapq0FSBaKmbizq4ENxJNDi2QIiKsOo22dUEu+vluG3H+WFW0BrAHioT/AOYDa2+ULPVHEzfgIEFNlZGvHJfFp2zMpTVijZsg0qXuCMt3qlDTOxbrPeDq/Wv+8Gm8iZUb8kmWFlwpbj4zPlwvsCpgu3h8fCFS/d7xYDzWntMplwUchFuJVgBDgkjFtmRWilxP8qavmEN4BLfcuVmMLLEY23AibpBhxyBU0UK1jNq4ptAWuwiMhSZxgFWtP2hDKCDX2ZFX6ARhFQ8tNms8zq0BsLYEBLnhx5oK5P00UzYMq3ZguDEIOb2zsMG6rjNtzBXgliPJVKKyEiI2C6vAPYJU4xt7p+IjsL3hQcpCiZDrq2L3Svh5yw8cX2zcfUQ6or375mmTYbvvyJn86bqjnhu6Ht1dTy9PK0wPdrL8RdCDOIqiePyRn2K1z5zruKJZ9iiK6WVeWZ/e9Yhy/ZLyybhxZtQNmaKp6SDubkXayibmB4APs0X1/ePduhiaEX4q2qeHS/9ps2rc1f17AiZfiS0je46ym+H5X9HBrQ7xtsW3WNwXbua60MEy7NJj1cR5URR53FRHOpx3e9sTnK2077R6OTcePQuwQtu2w9Fygpbdv7pdRbDTk/tBZnK62wWr3DhxuiltPmvU0O62T6lccE/u9uONbrae4O6jvuna7Xhmq9T6MJd7Ej10G4fyvGeqbEfUPLa/TffQ+1Obhw0W2vH3u9ywZC7x3Uy9wYplWfeOF4DgQpUL88QrZ+2H9nFAKjUuzC6TSOvn8zutSjyCXc4Q6D2JcmSvVJGFWQMskuduFiv5FfQswdtIIHOL68JLFVwxyKR7wx3W+ZHemQjZgi/5vWfwMtltS2Ze2WdnthoPZpfH5J/tgCGED/HESBSZ92bgQEUZkavx3jtwBdOX+U5PmXm7BrLMiIMNscSlooOd6krsDbOOs9zcywBjSLyM7/ky67JnwCECeQ5xaJN6Ie2FQx7BHEis0uCIQtVRnynbgaHzqOrLCHAPNJb2QgUZpw9bk2W9Dy4ax6oOS0LY3Mt6P5WecIawbyDJSj87VbUOAwJOVoKAbVZkqiKSW/J8eg60FFnL537+o6QgKwFrvVrvX9ZrG+uA/d1DjUaj0Wg0Gs1y/gG+Ri45cqx+7AAAAABJRU5ErkJggg=="
+                    class="rounded-circle user_img_msg"
+                  />
+                </div>
+              </div>
+      `);
+      $('#message').val('');
+    });
+
+    // Handle incoming message from the websocket
+    socket.onmessage = function(event) {
+      $('#chat-box').append(`
+      <div class="d-flex justify-content-start mb-4">
+                <div class="img_cont_msg">
+                  <img
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK8AAAB8CAMAAAAo5hDGAAAAY1BMVEX///8AAADDw8NxcXH7+/va2tr19fVlZWW6urrr6+uLi4vf39+9vb0ODg4FBQXn5+fPz88/Pz8wMDCqqqqgoKAYGBhra2uAgIAlJSUcHBxKSkpfX19ZWVmysrJTU1ORkZE3NzeTRpboAAAEkElEQVR4nO2b65aqMAyFLTdFBAooV1He/ymPSlpAQYq2xDmr378ZOrgnTdI0rZuNRqPRaDQajeZ/x/GoYRjUc7CFzON4Ser7AbkT+H6a/LRo93gmz5yPLrasCWzzRWyLaWNLG8HZBxNyb56x/y2vsDabw6TYlgO2xiHZjFxCMmyJHGsTlgNpp7JKzbQqT4PfluF9Hn4B99KT5WeG7TrWxnJc28j83pPLjySKsOk0mc9+eugljSZE0feEAzn3lh5KOvKclo9nd86/kCa23BOOEyOO3Cu2qyobpeZyp1cF22cWrldUNi6FJYHonXOGEUsd2Esd84b8fSyF+W94hAETPWs3mIeAGKvomsBi9dhudugORp4xFw2DpV2BsSwRYxoYvDf3BMZ6OboHO2CyvdDoPYzGWzQSUCBWGLgwOlGsapq0FSBaKmbizq4ENxJNDi2QIiKsOo22dUEu+vluG3H+WFW0BrAHioT/AOYDa2+ULPVHEzfgIEFNlZGvHJfFp2zMpTVijZsg0qXuCMt3qlDTOxbrPeDq/Wv+8Gm8iZUb8kmWFlwpbj4zPlwvsCpgu3h8fCFS/d7xYDzWntMplwUchFuJVgBDgkjFtmRWilxP8qavmEN4BLfcuVmMLLEY23AibpBhxyBU0UK1jNq4ptAWuwiMhSZxgFWtP2hDKCDX2ZFX6ARhFQ8tNms8zq0BsLYEBLnhx5oK5P00UzYMq3ZguDEIOb2zsMG6rjNtzBXgliPJVKKyEiI2C6vAPYJU4xt7p+IjsL3hQcpCiZDrq2L3Svh5yw8cX2zcfUQ6or375mmTYbvvyJn86bqjnhu6Ht1dTy9PK0wPdrL8RdCDOIqiePyRn2K1z5zruKJZ9iiK6WVeWZ/e9Yhy/ZLyybhxZtQNmaKp6SDubkXayibmB4APs0X1/ePduhiaEX4q2qeHS/9ps2rc1f17AiZfiS0je46ym+H5X9HBrQ7xtsW3WNwXbua60MEy7NJj1cR5URR53FRHOpx3e9sTnK2077R6OTcePQuwQtu2w9Fygpbdv7pdRbDTk/tBZnK62wWr3DhxuiltPmvU0O62T6lccE/u9uONbrae4O6jvuna7Xhmq9T6MJd7Ej10G4fyvGeqbEfUPLa/TffQ+1Obhw0W2vH3u9ywZC7x3Uy9wYplWfeOF4DgQpUL88QrZ+2H9nFAKjUuzC6TSOvn8zutSjyCXc4Q6D2JcmSvVJGFWQMskuduFiv5FfQswdtIIHOL68JLFVwxyKR7wx3W+ZHemQjZgi/5vWfwMtltS2Ze2WdnthoPZpfH5J/tgCGED/HESBSZ92bgQEUZkavx3jtwBdOX+U5PmXm7BrLMiIMNscSlooOd6krsDbOOs9zcywBjSLyM7/ky67JnwCECeQ5xaJN6Ie2FQx7BHEis0uCIQtVRnynbgaHzqOrLCHAPNJb2QgUZpw9bk2W9Dy4ax6oOS0LY3Mt6P5WecIawbyDJSj87VbUOAwJOVoKAbVZkqiKSW/J8eg60FFnL537+o6QgKwFrvVrvX9ZrG+uA/d1DjUaj0Wg0Gs1y/gG+Ri45cqx+7AAAAABJRU5ErkJggg=="
+                    class="rounded-circle user_img_msg"
+                  />
+                </div>
+                <div class="msg_container">
+                  ${event.data}
+                </div>
+        </div>
+      `);
+      scrollToBottom();
+    };
+  });
+</script>
+  </body>
+</html>
