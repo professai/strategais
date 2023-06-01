@@ -10,6 +10,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown", 
     packages=find_packages(),
+    package_data={'strategais': ['templates/*.html']},
     install_requires=[
         'fastapi',
         'fastapi_utils',
