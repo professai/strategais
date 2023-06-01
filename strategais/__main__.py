@@ -104,7 +104,12 @@ async def chat_endpoint(websocket: WebSocket):
 import urllib3
 urllib3.disable_warnings()
 
-templates = Jinja2Templates(directory=".")
+
+import pkg_resources
+
+template_path = pkg_resources.resource_filename('strategais', 'templates')
+templates = Jinja2Templates(directory=template_path)
+
 
 @server.get("/", response_class=HTMLResponse,
             tags=['Landing API'],
