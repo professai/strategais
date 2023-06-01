@@ -78,13 +78,19 @@ server.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"], )
 
-@server.get("/keepalive")
+@server.get("/keepalive",
+            tags=['Keep Alive API'],
+            summary="Keep Alive API",
+            description="Returns the server timestamp.")
 def keepalive_get():
     import datetime
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     return {'timestamp': timestamp}
     
-@server.get("/chat")
+@server.get("/chat",
+            tags=['Chat API'],
+            summary="Chat API",
+            description="Returns the chat response to the question.")
 def chat_get(question: str = 'Hello World?'):
     return {"answer": chatbot(question)}
 
