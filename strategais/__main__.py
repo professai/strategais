@@ -58,6 +58,8 @@ if args.llm:
     chatbot = llm_module.main_chat()
 else:
     def main_chat(question):
+        from huggingface_hub import login
+        login(os.getenv('HUGGINGFACEHUB_API_TOKEN'))
         from transformers.tools import HfAgent
         agent = HfAgent("https://api-inference.huggingface.co/models/bigcode/starcoder")
         return agent.chat(question)
