@@ -26,19 +26,12 @@ from pandas.io.json import json_normalize
 import numpy as np
 import requests
 
-from transformers import *
-from langchain.llms import HuggingFacePipeline
-from langchain import PromptTemplate, LLMChain
-from langchain.chains import ConversationChain
-from langchain.chains.conversation.memory import ConversationBufferWindowMemory
-
 import torch
 
 import os
 from dotenv import load_dotenv
 from pathlib import Path
 import pandas as pd
-import joblib
 from urllib.request import urlopen
 
 
