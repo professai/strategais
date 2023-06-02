@@ -5,12 +5,12 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='strategais',
-    version='0.2.5', 
+    version='0.2.6', 
     description='A Python library for deploying large language models (LLMs) in local environments.',
     long_description=long_description,
     long_description_content_type="text/markdown", 
     packages=find_packages(),
-    package_data={'strategais': ['templates/*.html']},
+    package_data={'strategais': ['templates/*.html', 'static/*.js', 'static/*.css' , 'models/*.sav']},
     install_requires=[
         'fastapi',
         'fastapi_utils',

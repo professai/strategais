@@ -7,6 +7,7 @@ from .llm_tools import *
 import json
 import asyncio
 import uvicorn
+import pkg_resources
 
 from fastapi import FastAPI, Request, WebSocket  # ,Response, Body, Form,
 from fastapi.middleware.cors import CORSMiddleware
@@ -62,9 +63,18 @@ if args.llm:
     chatbot = llm_module.main_chat()
 else:
     def main_chat(question):
-        from transformers.tools import HfAgent
-        agent = HfAgent("https://api-inference.huggingface.co/models/OpenAssistant/oasst-sft-4-pythia-12b-epoch-3.5")
-        return agent.run(question)
+        models_dir = pkg_resources.resource_filename('strategais', 'models')
+        model_file = 'model.sav'
+        tokenizer_file = 'tokenizer.sav'
+        model = load_model(f'{models_dir}/{model_file}')
+        tokenizer = load_tokenizer(f'{models_dir}/{tokenizer_file}')
+
+        input_text = question
+
+        input_ids = tokenizer(input_text, return_tensors="pt").input_ids.to('cpu')
+
+        outputs = model.generate(input_ids, max_length=10000)
+        return tokenizer.decode(outputs[0], skip_special_tokens=True)
     
     chatbot = main_chat
 
@@ -112,8 +122,6 @@ async def chat_endpoint(websocket: WebSocket):
 
 import urllib3
 urllib3.disable_warnings()
-
-import pkg_resources
 
 template_path = pkg_resources.resource_filename('strategais', 'templates')
 templates = Jinja2Templates(directory=template_path)

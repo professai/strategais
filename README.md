@@ -6,7 +6,7 @@
 
 Then run 
 
-```python -m strategais -t Hello -p 8181 --env prod.env```
+```python -m strategais -t Hello -p 8181 --env main.env```
 
 ## Additional Flags
 
