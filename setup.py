@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='strategais',
-    version='0.2.7', 
+    version='0.2.8', 
     description='A Python library for deploying large language models (LLMs) in local environments.',
     long_description=long_description,
     long_description_content_type="text/markdown", 
@@ -27,16 +27,13 @@ setup(
         'pydantic',
         'aiofiles',
         'psycopg2-binary',
-        'watchdog[watchmedo]',
         'email-validator',
-        'boto3',
         'jinja2',
         'python-multipart',
         'httpx',
         'sse-starlette',
         'langchain',
         'python-dotenv',
-        'openai',
         'huggingface_hub',
         'chromadb',
         'redis',
@@ -54,5 +51,8 @@ setup(
         'cryptography==38.0.4',
         'xformers==0.0.12'
     ],
+    extras_require={
+        'ext': ['openai', 'boto3', 'email-validator', 'watchdog[watchmedo]'],
+    }
 )
 
