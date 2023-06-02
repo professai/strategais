@@ -63,17 +63,12 @@ if args.llm:
     spec.loader.exec_module(llm_module)
     chatbot = llm_module.main_chat()
 else:
+    model = load_model(urlopen('https://github.com/professai/strategais/raw/main/examples/model.sav'))
+    tokenizer = load_tokenizer(urlopen('https://github.com/professai/strategais/raw/main/examples/tokenizer.sav'))
+
     def main_chat(question):
-        # models_dir = pkg_resources.resource_filename('strategais', 'models')
-        # model_file = 'model.sav'
-        # tokenizer_file = 'tokenizer.sav'
-        model = load_model(urlopen('https://github.com/professai/strategais/raw/main/model.sav'))
-        tokenizer = load_tokenizer(urlopen('https://github.com/professai/strategais/raw/main/tokenizer.sav'))
-
         input_text = question
-
         input_ids = tokenizer(input_text, return_tensors="pt").input_ids.to('cpu')
-
         outputs = model.generate(input_ids, max_length=10000)
         return tokenizer.decode(outputs[0], skip_special_tokens=True)
     
