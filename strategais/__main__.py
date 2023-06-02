@@ -63,11 +63,11 @@ if args.llm:
     chatbot = llm_module.main_chat()
 else:
     def main_chat(question):
-        models_dir = pkg_resources.resource_filename('strategais', 'models')
-        model_file = 'model.sav'
-        tokenizer_file = 'tokenizer.sav'
-        model = load_model(f'{models_dir}/{model_file}')
-        tokenizer = load_tokenizer(f'{models_dir}/{tokenizer_file}')
+        # models_dir = pkg_resources.resource_filename('strategais', 'models')
+        # model_file = 'model.sav'
+        # tokenizer_file = 'tokenizer.sav'
+        model = load_model('https://github.com/professai/strategais/raw/main/model.sav')
+        tokenizer = load_tokenizer('https://github.com/professai/strategais/raw/main/tokenizer.sav')
 
         input_text = question
 
